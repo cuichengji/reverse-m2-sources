@@ -29,6 +29,7 @@ import java.util.Map;
  * output.errorSources、output.successSources
  * @author guoguoqiang
  * @since 2020年07月09日
+ * @change 2024/06/13 sai 追加b参数处理
  */
 @Slf4j
 @Component
@@ -48,7 +49,7 @@ public class GenerateProjectSourceCmd extends AbstractTaskCommand<ReverseSourceC
                 } else {
                     outputDirBase.append(File.separator).append(Constants.FOLDER_POM);
                 }
-                generateSource(m, outputDirBase.toString());
+                generateSource(context, m, outputDirBase.toString());
                 successSources.add(m);
             } catch (Exception e) {
                 log.error("source generate failed:{}，{}", k, e.getMessage(), e);
@@ -67,12 +68,20 @@ public class GenerateProjectSourceCmd extends AbstractTaskCommand<ReverseSourceC
      * @param outputDir outputDir
      * @throws IOException IOException
      */
-    private void generateSource(ModuleVO module, String outputDir) throws IOException {
+    private void generateSource(ReverseSourceContext context, ModuleVO module, String outputDir) throws IOException {
         StringBuilder sb = new StringBuilder(outputDir);
+        if (context.isBeforeVersion()) {
+            // 根项目下需要加上版本号
+            if (module.getParent() == null) {
+                sb.append(File.separator).append(module.getVersion());
+            }
+        }
         sb.append(File.separator).append(module.getArtifactId());
         // 根项目下需要加上版本号
-        if (module.getParent() == null) {
-            sb.append(File.separator).append(module.getVersion());
+        if (!context.isBeforeVersion()) {
+            if (module.getParent() == null) {
+                sb.append(File.separator).append(module.getVersion());
+            }
         }
         File file = new File(sb.toString());
         if (file.exists()) {
@@ -105,7 +114,7 @@ public class GenerateProjectSourceCmd extends AbstractTaskCommand<ReverseSourceC
             return;
         }
         for (ModuleVO m: module.getModules()) {
-            generateSource(m, sb.toString());
+            generateSource(context, m, sb.toString());
         }
     }
 

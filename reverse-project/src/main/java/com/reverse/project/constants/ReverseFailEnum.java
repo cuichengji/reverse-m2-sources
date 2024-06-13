@@ -5,9 +5,14 @@ package com.reverse.project.constants;
  *
  * @author guoguoqiang
  * @since 2020年07月06日
+ * @change 2024/06/13 sai 追加解压失败定数
  */
 @SuppressWarnings("unused")
 public enum ReverseFailEnum {
+    /**
+     * 解压失败
+     */
+    FAIL_UNZIP(-1, "source jar包损坏，无法解压"),
     /**
      * 不支持的packaging方式
      */

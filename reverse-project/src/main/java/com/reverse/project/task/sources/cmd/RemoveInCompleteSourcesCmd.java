@@ -21,6 +21,7 @@ import java.util.Set;
  * 输出：middle.moduleMap、output.errorSources
  * @author guoguoqiang
  * @since 2020年07月09日
+ * @change 2024/06/13 sai 追加a参数处理
  */
 @Slf4j
 @Component
@@ -36,9 +37,15 @@ public class RemoveInCompleteSourcesCmd extends AbstractTaskCommand<ReverseSourc
             if (v.hasParentPom() && !allModuleHistory.contains(moduleKey)) {
                 ErrorSourceVO errorSource = buildErrorSource(v, ReverseFailEnum.FAIL_UN_MATCH_IN_MODULE);
                 errorSources.add(errorSource);
+                if (context.isSkipAnalysis()) {
+                    successModuleMap.put(k, v);
+                }
             } else if (!ModuleVO.checkAllModulesMatch(v)) {
                 ErrorSourceVO errorSource = buildErrorSource(v, ReverseFailEnum.FAIL_MODULE_MISS);
                 errorSources.add(errorSource);
+                if (context.isSkipAnalysis()) {
+                    successModuleMap.put(k, v);
+                }
             } else {
                 successModuleMap.put(k, v);
             }

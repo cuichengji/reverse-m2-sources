@@ -17,6 +17,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  *
  * @author guoguoqiang
  * @since 2020年07月02日
+ * @change 2024/06/13 sai 追加a,b命令行参数
  */
 @Slf4j
 @SpringBootApplication
@@ -41,11 +42,15 @@ public class ReverseApplication implements CommandLineRunner {
         final String scanDir = commandLine.getOptionValue('s').trim();
         final String tmpDir = commandLine.hasOption('t') ? commandLine.getOptionValue('t').trim() : null;
         final String outputDir = commandLine.hasOption('o') ? commandLine.getOptionValue('o').trim() : null;
+        final boolean beforeVersion = commandLine.hasOption('b') ? Boolean.valueOf(commandLine.getOptionValue('b')) : false;
+        final boolean skipAnalysis = commandLine.hasOption('a') ? Boolean.valueOf(commandLine.getOptionValue('a')) : false;
         ReverseSourceContext context = new ReverseSourceContext();
         context.setM2Dir(m2Dir);
         context.setScanDir(scanDir);
         context.setTmpDir(tmpDir);
         context.setOutputDir(outputDir);
+        context.setBeforeVersion(beforeVersion);
+        context.setSkipAnalysis(skipAnalysis);
         reverseSourcesTask.execute(context);
         log.info("Execute completely，taste:{}", (context.getEndTime().getTime() - context.getBeginTime().getTime()));
     }

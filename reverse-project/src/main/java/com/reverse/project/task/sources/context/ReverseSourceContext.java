@@ -13,6 +13,7 @@ import lombok.NoArgsConstructor;
  *
  * @author guoguoqiang
  * @since 2020年07月06日
+ * @change 2024/06/13 sai 追加a,b命令行参数
  */
 @Data
 @Builder
@@ -49,6 +50,18 @@ public class ReverseSourceContext extends TaskContext {
      * 未设置时 默认为${scanDir}-generate
      */
     private String outputDir;
+
+    /**
+     * 先版本号路径再包名路径
+     * 默认为false
+     */
+    private boolean beforeVersion = false;
+
+    /**
+     * 忽略pom依存性检查
+     * 默认为false
+     */
+    private boolean skipAnalysis = false;
 
     // -----------------------中间结果-----------------------
     /**

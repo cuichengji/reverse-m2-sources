@@ -28,7 +28,7 @@ import java.util.Properties;
 /**
  * 命令行工具类
  * 参数列表
- *
+* @change 2024/06/13 sai 追加a,b参数
  */
 public class CliUtil {
 
@@ -54,6 +54,16 @@ public class CliUtil {
 
         opt = new Option("o", "output", true,
         "The output directory is store reversed source, eg: /.m2/output");
+        opt.setRequired(false);
+        options.addOption(opt);
+
+        opt = new Option("a", "skip pom Analysis", true,
+                "skip pom Analysis, eg: true");
+        opt.setRequired(false);
+        options.addOption(opt);
+
+        opt = new Option("b", "before version", true,
+                "The output directory before version after ArtifactId, eg: true");
         opt.setRequired(false);
         options.addOption(opt);
 
