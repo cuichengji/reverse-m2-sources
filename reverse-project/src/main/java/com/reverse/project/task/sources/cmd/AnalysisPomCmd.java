@@ -1,6 +1,5 @@
 package com.reverse.project.task.sources.cmd;
 
-import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.reverse.project.base.task.AbstractTaskCommand;
 import com.reverse.project.constants.ReverseFailEnum;
@@ -39,7 +38,7 @@ public class AnalysisPomCmd extends AbstractTaskCommand<ReverseSourceContext> {
             log.error("The list of files to be reversed is empty.");
             return true;
         }
-        List<ErrorSourceVO> errorSources = Lists.newArrayList();
+        List<ErrorSourceVO> errorSources = context.getOutput().getErrorSources();
         sourceMap.forEach((k, v) -> {
             try {
                 Pom pom = JsonCloneUtils.cloneFrom(v, Pom.class);

@@ -33,5 +33,10 @@ java -jar reverse-project-1.0.0-SNAPSHOT.jar -m $PATH/docs/m2-source-example -s 
 
 -t sources.jar解压临时目录 执行后可手工删除
 
+-b 源码逆向后的保存路径中，先加上版本号还是先加上ArtifactId（默认：false（既先加ArtifactId））
+
+-a 即使发生未被其它模块包含，module缺失错误，也作为反向对象（默认：false）
+
+其他：source.jar包解压失败，不出控制台log，打印到结果文件
 
 本项目基于jdk8开发,运行项目源码需要自己安装lombok插件
